@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>com.github.RESTMan</id>
+    <name>RESTMan</name>
+    <version>0.1</version>
+    <vendor email="cpwu@foxmail.com" url="https://github.com/BlueDriver/RESTMan">BlueDriver</vendor>
+
+    <description><![CDATA[
+      RESTful接口调试工具<br>
+      <em>支持json和xml格式报文，借助原生编辑器实现语法高亮和语法检查。</em><br>
+      An IDEA plugin that can be used for testing RESTful Web services.
+    ]]></description>
+
+    <change-notes><![CDATA[
+       2019-03-19<em>&nbsp;&nbsp;&nbsp;&nbsp;修复部分已知问题</em><br>
+       2019-03-18<em>&nbsp;&nbsp;&nbsp;&nbsp;V0.1</em><br>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <toolWindow id="RESTMan" icon="/icon/fly.png" anchor="bottom"
+                    factoryClass="rest.ui.RestManToolWindowFactory"/>
+    </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>rest.component.RestComponent</implementation-class>
+        </component>
+    </project-components>
+</idea-plugin>
