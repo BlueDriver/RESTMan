@@ -79,7 +79,7 @@ public class RESTWindow extends JDialog {
      * init client
      */
     private OkHttpClient client = new OkHttpClient.Builder()
-            .connectTimeout(600, TimeUnit.SECONDS)
+            .connectTimeout(6_000, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .build();
@@ -98,6 +98,18 @@ public class RESTWindow extends JDialog {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .build();
+        Response response = client.newCall(request).execute();
+        return response;
+    }
+
+    /**
+     * get request
+     */
+    public Response get(String url) throws Exception {
+        Request request = new Request.Builder()
+                .url(url)
+                .get()
                 .build();
         Response response = client.newCall(request).execute();
         return response;
@@ -202,7 +214,8 @@ public class RESTWindow extends JDialog {
                 respString = "Loading...";
                 setEditorDoc(respEditorJSON, respString);
                 setEditorDoc(respEditorXML, respString);
-                //String method = comboBoxMethod.getSelectedItem().toString();
+                //提交方式：GET或POST
+                String method = comboBoxMethod.getSelectedItem().toString();
                 //System.out.println(textFieldURL.getText());
                 //System.out.println(method);
 
@@ -214,10 +227,15 @@ public class RESTWindow extends JDialog {
                     //System.out.println(getStringFromEditor(reqEditorXML));
                     reqString = getStringFromEditor(reqEditorXML);
                 }
-                //post
                 Response resp;
                 try {
-                    resp = post(textFieldURL.getText(), reqString, isJsonReq == true ? jsonType : xmlType);
+                    //get
+                    if ("GET".equals(method)) {
+                        resp = get(textFieldURL.getText());
+                    } else {
+                        //post
+                        resp = post(textFieldURL.getText(), reqString, isJsonReq == true ? jsonType : xmlType);
+                    }
                     respString = resp.body().string();
                 } catch (Exception e1) {
                     //e1.printStackTrace();
